@@ -1,4 +1,4 @@
-local target = "trap"
+local target = "trap" -- name or nil
 local range = 100
 
 local http = game:GetService("HttpService")
@@ -32,7 +32,7 @@ local function getClosest(trackpart)
     for i, v in pairs(game:GetService("Workspace").Nodes:GetChildren()) do
         thing = string.split(v.Name, "_")
         for i2, v2 in pairs(thing) do
-            if v2 == trackpart then
+            if v2 == trackpart or trackpart == nil then
                 local mag = (hrp.Position - v.Position).Magnitude
                 if mag < distance then
                     distance = mag
@@ -51,7 +51,7 @@ local function getClosestsInRange(trackpart, range)
     for i, v in pairs(game:GetService("Workspace").Nodes:GetChildren()) do
         thing = string.split(v.Name, "_")
         for i2, v2 in pairs(thing) do
-            if v2 == trackpart then
+            if v2 == trackpart or trackpart == nil then
                 local mag = (hrp.Position - v.Position).Magnitude
                 if mag < range then
                     v.Name = "closest" .. i
