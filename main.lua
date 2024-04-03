@@ -1,6 +1,3 @@
-local target = "trap" -- name or nil
-local range = 100
-
 local http = game:GetService("HttpService")
 local tp = game:GetService("TeleportService")
 local uis = game:GetService("UserInputService")
@@ -69,6 +66,10 @@ local function attackAllNearby(trackpart)
         repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
         table.remove(trackpart, 1)
     end
+    if _G.repeating == true then
+        attackAllNearby(getClosestsInRange(_G.target, _G.range))
+    end
+    return 200
 end
 
-attackAllNearby(getClosestsInRange(target, range))
+attackAllNearby(getClosestsInRange(_G.target, _G.range))
