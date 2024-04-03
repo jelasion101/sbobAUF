@@ -1,5 +1,5 @@
-local target = "doubloons"
-local range = 500
+local target = "trap"
+local range = 100
 
 local http = game:GetService("HttpService")
 local tp = game:GetService("TeleportService")
@@ -24,7 +24,6 @@ end
 
 local function attackTarget(trackpart)
     game:GetService("ReplicatedStorage").Knit.Services.NodeService.RE.NodeClicked:FireServer(game:GetService("Workspace").Nodes[trackpart], true, false)
-    repeat wait() until game:GetService("Workspace").Nodes[trackpart] == nil
 end
 
 local function getClosest(trackpart)
@@ -56,7 +55,6 @@ local function getClosestsInRange(trackpart, range)
                 local mag = (hrp.Position - v.Position).Magnitude
                 if mag < range then
                     v.Name = "closest" .. i
-                    print("Final Target: " .. v.Name .. ", at Magniutde: " .. mag)
                     table.insert(tgs, v.Name)
                 end
             end
