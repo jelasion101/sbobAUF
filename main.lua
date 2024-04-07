@@ -63,13 +63,12 @@ end
 local function attackAllNearby(trackpart)
     while #trackpart > 0 do
         attackTarget(trackpart[1])
+		placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
         repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
+		hrp.Position = placeholderPosition
         table.remove(trackpart, 1)
     end
-    if _G.repeating == true then
-        attackAllNearby(getClosestsInRange(_G.target, _G.range))
-    end
-    return 200
+	return 200
 end
 
 attackAllNearby(getClosestsInRange(_G.target, _G.range))
