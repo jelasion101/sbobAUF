@@ -50,12 +50,12 @@ local function getClosestsInRange(trackpart, range)
         thing = string.split(v.Name, "_")
         for i2, v2 in pairs(thing) do
             if v2 == trackpart or trackpart == nil then
-                local mag = (hrp.Position - v.Position).Magnitude
-                if mag < range then
-                    v.Name = "closest" .. ind
-		    ind = ind + 1
-                    table.insert(tgs, v.Name)
-                end
+				local mag = (hrp.Position - v.Position).Magnitude
+				if mag < range then
+	    			v.Name = "closest" .. i
+					print("added: " .. v.Name)
+					table.insert(tgs, v.Name)
+				end
             end
         end
     end
@@ -64,12 +64,14 @@ end
 
 running = false
 local function attackAllNearby(trackpart)
-    while #trackpart > 0 do
-	running = true
-        attackTarget(trackpart[1])
-	placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
-        repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
-	hrp.Position = placeholderPosition
+    while #trackpart > 0 and _G.enemyAutofarmActive == true do
+		running = true
+		if game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) then
+	        attackTarget(trackpart[1])
+			placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
+       	end
+		 repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
+		hrp.Position = placeholderPosition
         table.remove(trackpart, 1)
     end
     running = false
@@ -83,11 +85,14 @@ local function openEggs(eggs)
     end
 end
 
-while wait() do
-    if _G.enemyAutofarmActive == true and running = false then
-        attackAllNearby(getClosestsInRange(_G.target, _G.range))
-    end
-    if _G.eggOpenActive == true then
-        openEggs(_G.eggs)
-    end
-end
+spawn(function()
+	while _G.scriptActive do
+		wait()
+	    if _G.enemyAutofarmActive == true and running == false then
+	        attackAllNearby(getClosestsInRange(_G.target, _G.range))
+	    end
+	    if _G.eggOpenActive == true then
+	        openEggs(_G.eggs)
+	    end
+	end
+end)
