@@ -68,7 +68,21 @@ local function attackAllNearby(trackpart)
 		hrp.Position = placeholderPosition
         table.remove(trackpart, 1)
     end
-	return 200
+    return 200
 end
 
-attackAllNearby(getClosestsInRange(_G.target, _G.range))
+local function openEggs(eggs)
+    if #eggs == 0 then return end
+    for i, v in pairs(eggs) do
+	game:GetService("ReplicatedStorage").Knit.Services.VendorService.RF.Purchase:InvokeServer(v, _G.amountToOpen)
+	wait()
+    end
+end
+
+
+if _G.enemyAutofarmActive == true then
+    attackAllNearby(getClosestsInRange(_G.target, _G.range))
+end
+if _G.eggOpenActive == true then
+    openEggs(_G.eggs)
+end
