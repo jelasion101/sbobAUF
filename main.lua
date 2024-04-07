@@ -77,28 +77,21 @@ local function attackAllNearby(trackpart)
     running = false
 end
 
-local function openEggs(eggs)
-    if #eggs == 0 then return end
-    for i, v in pairs(eggs) do
-	game:GetService("ReplicatedStorage").Knit.Services.VendorService.RF.Purchase:InvokeServer(eggs[i], _G.amountToOpen)
-	wait()
-    end
-end
-
 spawn(function()
-    while _G.scriptActive do
-	wait()
-	if _G.enemyAutofarmActive == true and running == false then
-	    attackAllNearby(getClosestsInRange(_G.target, _G.range))
-	end
+	 while _G.eggOpenActive == true do
+		print("rizz")
+		for i, v in pairs(_G.eggs) do
+			game:GetService("ReplicatedStorage").Knit.Services.VendorService.RF.Purchase:InvokeServer(_G.eggs[i], _G.amountToOpen)
+			wait()
+		end
     end
 end)
 
 spawn(function()
-    while _G.scriptActive do
-        wait()
-        if _G.eggOpenActive == true then
-    	    openEggs(_G.eggs)
-	end
+    while _G.scriptActive == true do
+		wait()
+		if _G.enemyAutofarmActive == true and running == false then
+	    	attackAllNearby(getClosestsInRange(_G.target, _G.range))
+		end
     end
 end)
