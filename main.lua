@@ -60,15 +60,17 @@ local function getClosestsInRange(trackpart, range)
     return tgs
 end
 
+running = false
 local function attackAllNearby(trackpart)
     while #trackpart > 0 do
+	running = true
         attackTarget(trackpart[1])
 		placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
         repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
 		hrp.Position = placeholderPosition
         table.remove(trackpart, 1)
     end
-    return 200
+    running = false
 end
 
 local function openEggs(eggs)
@@ -79,10 +81,11 @@ local function openEggs(eggs)
     end
 end
 
-
-if _G.enemyAutofarmActive == true then
-    attackAllNearby(getClosestsInRange(_G.target, _G.range))
-end
-if _G.eggOpenActive == true then
-    openEggs(_G.eggs)
+while wait() do
+    if _G.enemyAutofarmActive == true and running = false then
+        attackAllNearby(getClosestsInRange(_G.target, _G.range))
+    end
+    if _G.eggOpenActive == true then
+        openEggs(_G.eggs)
+    end
 end
