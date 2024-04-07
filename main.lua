@@ -86,13 +86,19 @@ local function openEggs(eggs)
 end
 
 spawn(function()
-	while _G.scriptActive do
-		wait()
-	    if _G.enemyAutofarmActive == true and running == false then
-	        attackAllNearby(getClosestsInRange(_G.target, _G.range))
-	    end
-	    if _G.eggOpenActive == true then
-	        openEggs(_G.eggs)
-	    end
+    while _G.scriptActive do
+	wait()
+	if _G.enemyAutofarmActive == true and running == false then
+	    attackAllNearby(getClosestsInRange(_G.target, _G.range))
 	end
+    end
+end)
+
+spawn(function()
+    while _G.scriptActive do
+        wait()
+        if _G.eggOpenActive == true then
+    	    openEggs(_G.eggs)
+	end
+    end
 end)
