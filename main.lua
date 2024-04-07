@@ -45,13 +45,15 @@ end
 
 local function getClosestsInRange(trackpart, range)
     local tgs = {}
+    ind = 1
     for i, v in pairs(game:GetService("Workspace").Nodes:GetChildren()) do
         thing = string.split(v.Name, "_")
         for i2, v2 in pairs(thing) do
             if v2 == trackpart or trackpart == nil then
                 local mag = (hrp.Position - v.Position).Magnitude
                 if mag < range then
-                    v.Name = "closest" .. i
+                    v.Name = "closest" .. ind
+		    ind = ind + 1
                     table.insert(tgs, v.Name)
                 end
             end
@@ -65,9 +67,9 @@ local function attackAllNearby(trackpart)
     while #trackpart > 0 do
 	running = true
         attackTarget(trackpart[1])
-		placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
+	placeholderPosition = (game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]).Position + Vector3.new(0, 10, 0))
         repeat wait() until game:GetService("Workspace").Nodes:FindFirstChild(trackpart[1]) == nil
-		hrp.Position = placeholderPosition
+	hrp.Position = placeholderPosition
         table.remove(trackpart, 1)
     end
     running = false
@@ -76,7 +78,7 @@ end
 local function openEggs(eggs)
     if #eggs == 0 then return end
     for i, v in pairs(eggs) do
-	game:GetService("ReplicatedStorage").Knit.Services.VendorService.RF.Purchase:InvokeServer(v, _G.amountToOpen)
+	game:GetService("ReplicatedStorage").Knit.Services.VendorService.RF.Purchase:InvokeServer(eggs[i], _G.amountToOpen)
 	wait()
     end
 end
